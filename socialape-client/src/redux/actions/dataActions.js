@@ -85,3 +85,8 @@ export const deleteScream = screamId => dispatch => {
     })
     .catch(err => console.log(err));
 };
+
+// Clear Errors
+export const clearErrors = () => dispatch => {
+  dispatch({ type: CLEAR_ERRORS });
+};
