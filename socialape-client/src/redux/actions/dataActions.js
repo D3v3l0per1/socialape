@@ -1,13 +1,16 @@
 import {
   SET_SCREAMS,
+  SET_SCREAM,
   LOADING_DATA,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   DELETE_SCREAM,
   LOADING_UI,
+  STOP_LOADING_UI,
   SET_ERRORS,
   CLEAR_ERRORS,
-  POST_SCREAM
+  POST_SCREAM,
+  SUBMIT_COMMENT
 } from "../types";
 import axios from "axios";
 
@@ -30,6 +33,21 @@ export const getScreams = () => dispatch => {
     });
 };
 
+// Get Single Scream
+export const getScream = screamId => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`/scream/${screamId}`)
+    .then(res => {
+      dispatch({
+        type: SET_SCREAM,
+        payload: res.data
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch(err => console.log(err));
+};
+
 // Post Scream
 export const postScream = newScream => dispatch => {
   dispatch({ type: LOADING_UI });
@@ -40,7 +58,7 @@ export const postScream = newScream => dispatch => {
         type: POST_SCREAM,
         payload: res.data
       });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch(err => {
       dispatch({
@@ -76,6 +94,25 @@ export const unlikeScream = screamId => dispatch => {
     .catch(err => console.log(err));
 };
 
+// Submit Comment
+export const submitComment = (screamId, commentData) => dispatch => {
+  axios
+    .post(`/scream/${screamId}/comment`, commentData)
+    .then(res => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data
+      });
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // Delete Scream
 export const deleteScream = screamId => dispatch => {
   axios
@@ -84,6 +121,25 @@ export const deleteScream = screamId => dispatch => {
       dispatch({ type: DELETE_SCREAM, payload: screamId });
     })
     .catch(err => console.log(err));
+};
+
+// Get User Data
+export const getUserData = userHandle => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/${userHandle}`)
+    .then(res => {
+      dispatch({
+        type: SET_SCREAMS,
+        payload: res.data.screams
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_SCREAMS,
+        payload: null
+      });
+    });
 };
 
 // Clear Errors

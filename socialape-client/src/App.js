@@ -13,13 +13,15 @@ import { SET_AUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Layout/Navbar";
 import AuthRoute from "./util/AuthRoute";
 
 // Pages
 import home from "./pages/home";
 import login from "./pages/login";
 import signup from "./pages/signup";
+import user from "./pages/user";
+
 import axios from "axios";
 
 const theme = createMuiTheme(themeFile);
@@ -32,7 +34,7 @@ if (token) {
     window.location.href = "/login";
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common['Authorization'] = token;
+    axios.defaults.headers.common["Authorization"] = token;
     store.dispatch(getUserData());
   }
 }
@@ -47,15 +49,13 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={home} />
-                <AuthRoute
+                <AuthRoute exact path="/login" component={login} />
+                <AuthRoute exact path="/signup" component={signup} />
+                <Route exact path="/users/:handle" component={user} />
+                <Route
                   exact
-                  path="/login"
-                  component={login}
-                />
-                <AuthRoute
-                  exact
-                  path="/signup"
-                  component={signup}
+                  path="/user/:handle/scream/:screamId"
+                  component={user}
                 />
               </Switch>
             </div>

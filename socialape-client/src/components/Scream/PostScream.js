@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 // MUI Stuff
 import Button from "@material-ui/core/Button";
@@ -13,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Redux Stuff
 import { connect } from "react-redux";
-import { postScream, clearErrors } from "../redux/actions/dataActions";
+import { postScream, clearErrors } from "../../redux/actions/dataActions";
 
 // Icons
 import AddIcon from "@material-ui/icons/Add";
@@ -21,8 +21,8 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const styles = {
   submitButton: {
-    margin: '10px 0 20px 0',
-    float: 'right',
+    margin: "10px 0 20px 0",
+    float: "right",
     position: "relative"
   },
   progressSpinner: {
